@@ -1,7 +1,7 @@
 CREATE TABLE Customers (
     customer_id INT PRIMARY KEY,
     name VARCHAR(100),
-    phone_number VARCHAR(15),
+    phone_number CHAR(10),
     disability_status BOOLEAN,
     email VARCHAR(100),
     parking_spot_id INT,
@@ -22,7 +22,7 @@ CREATE TABLE Employees (
     employee_id INT PRIMARY KEY,
     email VARCHAR(100),
     name VARCHAR(100),
-    role VARCHAR(50)
+    role VARCHAR(20)
 );
 
 CREATE TABLE TicketBookingSystem (
@@ -50,7 +50,7 @@ CREATE TABLE Product_Merchandise (
     product_id INT PRIMARY KEY,
     product_type VARCHAR(50),
     event_id INT,
-    price DECIMAL(10, 2),
+    price DECIMAL(5, 2),
     quantity_available INT,
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
 );
@@ -58,7 +58,7 @@ CREATE TABLE Product_Merchandise (
 CREATE TABLE Venue (
     venue_id INT PRIMARY KEY,
     name VARCHAR(100),
-    location VARCHAR(255),
+    location VARCHAR(150),
     capacity INT
 );
 
@@ -75,9 +75,9 @@ CREATE TABLE Seats (
 CREATE TABLE Tickets (
     ticket_id INT PRIMARY KEY,
     event_id INT,
-    price DECIMAL(10, 2),
+    price DECIMAL(5, 2),
     seat_id INT,
-    disability_discount DECIMAL(5, 2),
+    disability_discount INT,
     ticket_type VARCHAR(50),
     FOREIGN KEY (event_id) REFERENCES Events(event_id),
     FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
@@ -86,14 +86,14 @@ CREATE TABLE Tickets (
 CREATE TABLE GeneralAdmissionTicket (
     ticket_id INT PRIMARY KEY,
     access_time TIME,
-    entry_gate VARCHAR(50),
+    entry_gate INT,
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
 
 CREATE TABLE ReservedTicket (
     ticket_id INT PRIMARY KEY,
-    section VARCHAR(50),
-    row VARCHAR(10),
+    section CHAR(1),
+    row INT,
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
 
