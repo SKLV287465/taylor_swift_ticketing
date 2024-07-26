@@ -8,6 +8,10 @@ CREATE TABLE Customers (
     FOREIGN KEY (parking_spot_id) REFERENCES Parking(parking_spot_id)
 );
 
+INSERT INTO Customers (customer_id, name, phone_number, disability_status, email, parking_spot_id) VALUES
+(1, 'John Doe', '1234567890', FALSE, 'johndoe@example.com', 1),
+(2, 'Jane Smith', '0987654321', TRUE, 'janesmith@example.com', 3);
+
 CREATE TABLE Feedback (
     feedback_id INT PRIMARY KEY,
     customer_id INT,
@@ -18,12 +22,20 @@ CREATE TABLE Feedback (
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
 );
 
+INSERT INTO Feedback (feedback_id, customer_id, event_id, rating, comments) VALUES
+(1, 1, 1, 5, 'Amazing concert!'),
+(2, 2, 2, 4, 'Great performance.');
+
 CREATE TABLE Employees (
     employee_id INT PRIMARY KEY,
     email VARCHAR(100),
     name VARCHAR(100),
     role VARCHAR(20)
 );
+
+INSERT INTO Employees (employee_id, email, name, role) VALUES
+(1, 'employee1@example.com', 'Alice', 'Manager'),
+(2, 'employee2@example.com', 'Bob', 'Staff');
 
 CREATE TABLE TicketBookingSystem (
     booking_id INT PRIMARY KEY,
@@ -36,6 +48,10 @@ CREATE TABLE TicketBookingSystem (
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
 
+INSERT INTO TicketBookingSystem (booking_id, event_id, customer_id, ticket_id, booking_date) VALUES
+(1, 1, 1, 1, '2024-07-01'),
+(2, 2, 2, 2, '2024-07-02');
+
 CREATE TABLE Events (
     event_id INT PRIMARY KEY,
     venue_id INT,
@@ -46,6 +62,10 @@ CREATE TABLE Events (
     FOREIGN KEY (artist_id) REFERENCES Artist(artist_id)
 );
 
+INSERT INTO Events (event_id, venue_id, event_name, event_date, artist_id) VALUES
+(1, 1, 'Concert A', '2024-08-01', 1),
+(2, 2, 'Concert B', '2024-09-15', 2);
+
 CREATE TABLE Product_Merchandise (
     product_id INT PRIMARY KEY,
     product_type VARCHAR(50),
@@ -55,12 +75,20 @@ CREATE TABLE Product_Merchandise (
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
 );
 
+INSERT INTO Product_Merchandise (product_id, product_type, event_id, price, quantity_available) VALUES
+(1, 'T-shirt', 1, 20.00, 100),
+(2, 'Poster', 2, 10.00, 200);
+
 CREATE TABLE Venue (
     venue_id INT PRIMARY KEY,
     name VARCHAR(100),
     location VARCHAR(150),
     capacity INT
 );
+
+INSERT INTO Venue (venue_id, name, location, capacity) VALUES
+(1, 'Stadium A', '123 Main St', 50000),
+(2, 'Arena B', '456 Elm St', 20000);
 
 CREATE TABLE Seats (
     seat_id INT PRIMARY KEY,
@@ -71,6 +99,12 @@ CREATE TABLE Seats (
     row VARCHAR(10),
     FOREIGN KEY (venue_id) REFERENCES Venue(venue_id)
 );
+
+INSERT INTO Seats (seat_id, venue_id, seat_number, section, accessible, row) VALUES
+(1, 1, 'A1', 'Section A', TRUE, 'Row 1'),
+(2, 1, 'A2', 'Section A', FALSE, 'Row 1'),
+(3, 2, 'B1', 'Section B', TRUE, 'Row 1'),
+(4, 2, 'B2', 'Section B', FALSE, 'Row 1');
 
 CREATE TABLE Tickets (
     ticket_id INT PRIMARY KEY,
@@ -83,12 +117,19 @@ CREATE TABLE Tickets (
     FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
 );
 
+INSERT INTO Tickets (ticket_id, event_id, price, seat_id, disability_discount, ticket_type) VALUES
+(1, 1, 100.00, 1, 10, 'VIP'),
+(2, 2, 50.00, 3, 5, 'Standard');
+
 CREATE TABLE GeneralAdmissionTicket (
     ticket_id INT PRIMARY KEY,
     access_time TIME,
     entry_gate INT,
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
+
+INSERT INTO GeneralAdmissionTicket (ticket_id, access_time, entry_gate) VALUES
+(1, '18:00:00', 1);
 
 CREATE TABLE ReservedTicket (
     ticket_id INT PRIMARY KEY,
@@ -97,6 +138,9 @@ CREATE TABLE ReservedTicket (
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
 
+INSERT INTO ReservedTicket (ticket_id, section, row) VALUES
+(2, 'B', 1);
+
 CREATE TABLE VIPPackages (
     ticket_id INT PRIMARY KEY,
     product_id INT,
@@ -104,6 +148,9 @@ CREATE TABLE VIPPackages (
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id),
     FOREIGN KEY (product_id) REFERENCES Product_Merchandise(product_id)
 );
+
+INSERT INTO VIPPackages (ticket_id, product_id, vip_area_access) VALUES
+(1, 1, TRUE);
 
 CREATE TABLE Waitlist (
     waitlist_id INT PRIMARY KEY,
@@ -114,11 +161,18 @@ CREATE TABLE Waitlist (
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
 );
 
+INSERT INTO Waitlist (waitlist_id, customer_id, event_id, position) VALUES
+(1, 1, 2, 1),
+(2, 2, 1, 2);
+
 CREATE TABLE Artist (
     artist_id INT PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100)
 );
+INSERT INTO Artist (artist_id, name, email) VALUES
+(1, 'Band X', 'bandx@example.com'),
+(2, 'Singer Y', 'singery@example.com');
 
 -- Composite entities
 CREATE TABLE Customer_Ticket (
@@ -128,6 +182,10 @@ CREATE TABLE Customer_Ticket (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
+
+INSERT INTO Customer_Ticket (customer_id, ticket_id) VALUES
+(1, 1),
+(2, 2);
 
 CREATE TABLE Customer_Employees_Feedback (
     customer_id INT,
@@ -139,6 +197,10 @@ CREATE TABLE Customer_Employees_Feedback (
     FOREIGN KEY (feedback_id) REFERENCES Feedback(feedback_id)
 );
 
+INSERT INTO Customer_Employees_Feedback (customer_id, employee_id, feedback_id) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
 CREATE TABLE Parking (
     parking_spot_id INT PRIMARY KEY,
     level INT,
@@ -147,3 +209,9 @@ CREATE TABLE Parking (
     reserved_period_start TIME,
     reserved_period_end TIME
 );
+
+INSERT INTO Parking (parking_spot_id, level, accessible, building, reserved_period_start, reserved_period_end) VALUES
+(1, 1, TRUE, 'Building A', '08:00:00', '18:00:00'),
+(2, 1, FALSE, 'Building A', '08:00:00', '18:00:00'),
+(3, 2, TRUE, 'Building B', '08:00:00', '18:00:00'),
+(4, 2, FALSE, 'Building B', '08:00:00', '18:00:00');
