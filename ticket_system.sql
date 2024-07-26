@@ -215,3 +215,53 @@ INSERT INTO Parking (parking_spot_id, level, accessible, building, reserved_peri
 (2, 1, FALSE, 'Building A', '08:00:00', '18:00:00'),
 (3, 2, TRUE, 'Building B', '08:00:00', '18:00:00'),
 (4, 2, FALSE, 'Building B', '08:00:00', '18:00:00');
+
+-- a. Provide a list of events (the names).
+SELECT event_name 
+FROM EVENTS;
+-- b. Provide a list of unique event dates.
+SELECT DISTINCT event_date FROM EVENTS;
+-- c. List all customer names (first and last name) who have reserved accessible parking
+-- spots.
+SELECT name FROM CUSTOMERS WHERE parking_spot_id IS NOT NULL;
+-- d. Count the number of different VIP packages and list the total number as 'Total VIP
+-- Packages'.
+SELECT COUNT(DISTINCT ticket_id) AS 'Total VIP Packages'
+FROM VIPPACKAGES;
+-- e. Summarize the total number of ticket bookings and the total payment amount made
+-- for each event. Show the events with the highest total associated payment amount
+-- first.
+SELECT 
+    E.event_id,
+    E.event_name,
+    COUNT(TBS.booking_id) AS total_bookings,
+    SUM(T.price) AS total_payment_amount
+FROM 
+    TicketBookingSystem TBS
+JOIN 
+    Tickets T ON TBS.ticket_id = T.ticket_id
+JOIN 
+    Events E ON TBS.event_id = E.event_id
+GROUP BY 
+    E.event_id, E.event_name
+ORDER BY 
+    total_payment_amount DESC;
+-- f. Summarize customer booking performance in the following way – for each
+-- customer, show:
+-- i. Their ID and name (show as “Full Name”),
+-- ii. The total number of tickets they have booked,
+-- iii. The total amount they have paid, and
+-- iv. The number of different events they have attended.
+SELECT 
+    C.customer_id,
+    C.name AS "Full Name",
+    COUNT(TBS.booking_id) AS total_tickets_booked,
+    SUM(T.price) AS total_amount_paid,
+    COUNT(DISTINCT TBS.event_id) AS total_events_attended
+FROM 
+    Customers C
+JOIN 
+    TicketBookingSystem TBS ON C.customer_id = TBS.customer_id
+JOIN 
+    Tickets T ON TBS.ticket_id = T.ticket_id
+GROUP BY 
