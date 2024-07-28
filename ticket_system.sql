@@ -534,7 +534,7 @@ SELECT DISTINCT event_date FROM EVENTS;
 -- spots.
 SELECT customer_name
 FROM Customers
-JOIN Parking ON Customers.parking_spot_id = Parking.parking_spot_id
+INNER JOIN Parking ON Customers.parking_spot_id = Parking.parking_spot_id
 WHERE Parking.accessible = 1;
 -- d. Count the number of different VIP packages and list the total number as 'Total VIP
 -- Packages'.
@@ -545,7 +545,7 @@ SELECT COUNT(DISTINCT ticket_id) AS "Total VIP Packages" FROM VIPPackages;
 -- booking id doesn't exist anymore.
 SELECT e.event_name, COUNT(t.ticket_id) AS total_bookings, SUM(t.price) AS total_payment
 FROM Events e
-JOIN Tickets t ON e.event_id = t.event_id
+INNER JOIN Tickets t ON e.event_id = t.event_id
 GROUP BY e.event_name
 ORDER BY total_payment DESC;
 -- f. Summarize customer booking performance in the following way – for each
@@ -557,5 +557,5 @@ ORDER BY total_payment DESC;
 -- problem TBS doesn't exist anymore
 SELECT c.customer_id AS "Customer ID", c.customer_name AS "Full Name", COUNT(t.ticket_id) AS total_tickets, SUM(t.price) AS total_amount_paid, COUNT(DISTINCT t.event_id) AS different_events
 FROM Customers c
-JOIN Tickets t ON c.ticket_id = t.ticket_id
+INNER JOIN Tickets t ON c.ticket_id = t.ticket_id
 GROUP BY c.customer_id, c.customer_name;
