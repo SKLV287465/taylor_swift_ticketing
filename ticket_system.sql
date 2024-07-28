@@ -5,6 +5,7 @@ CREATE TABLE Customers (
     disability_status BOOLEAN,
     email VARCHAR(100),
     parking_spot_id INT,
+    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id) 
     FOREIGN KEY (parking_spot_id) REFERENCES Parking(parking_spot_id)
 );
 
@@ -47,10 +48,6 @@ CREATE TABLE TicketBookingSystem (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
 );
-
-INSERT INTO TicketBookingSystem (booking_id, event_id, customer_id, ticket_id, booking_date) VALUES
-(1, 1, 1, 1, '2024-07-01'),
-(2, 2, 2, 2, '2024-07-02');
 
 CREATE TABLE Events (
     event_id INT PRIMARY KEY,
