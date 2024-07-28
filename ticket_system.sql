@@ -3,15 +3,16 @@ CREATE TABLE Customers (
     name VARCHAR(100),
     phone_number CHAR(10),
     disability_status BOOLEAN,
+    disability_discount INT BETWEEN 20 AND 30,
     email VARCHAR(100),
     parking_spot_id INT,
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id) 
     FOREIGN KEY (parking_spot_id) REFERENCES Parking(parking_spot_id)
 );
 
-INSERT INTO Customers (customer_id, name, phone_number, disability_status, email, parking_spot_id) VALUES
-(1, 'John Doe', '1234567890', FALSE, 'johndoe@example.com', 1),
-(2, 'Jane Smith', '0987654321', TRUE, 'janesmith@example.com', 3);
+INSERT INTO Customers (customer_id, name, phone_number, disability_status, disability_discount, email, parking_spot_id) VALUES
+(1, 'John Doe', '1234567890', FALSE, NULL, 'johndoe@example.com', 1),
+(2, 'Jane Smith', '0987654321', TRUE, 20, 'janesmith@example.com', 3);
 
 CREATE TABLE Feedback (
     feedback_id INT PRIMARY KEY,
@@ -37,17 +38,6 @@ CREATE TABLE Employees (
 INSERT INTO Employees (employee_id, email, name, role) VALUES
 (1, 'employee1@example.com', 'Alice', 'Manager'),
 (2, 'employee2@example.com', 'Bob', 'Staff');
-
-CREATE TABLE TicketBookingSystem (
-    booking_id INT PRIMARY KEY,
-    event_id INT,
-    customer_id INT,
-    ticket_id INT,
-    booking_date DATE,
-    FOREIGN KEY (event_id) REFERENCES Events(event_id),
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
-);
 
 CREATE TABLE Events (
     event_id INT PRIMARY KEY,
@@ -108,15 +98,14 @@ CREATE TABLE Tickets (
     event_id INT,
     price DECIMAL(5, 2),
     seat_id INT,
-    disability_discount INT,
     ticket_type VARCHAR(50),
     FOREIGN KEY (event_id) REFERENCES Events(event_id),
     FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
 );
 
-INSERT INTO Tickets (ticket_id, event_id, price, seat_id, disability_discount, ticket_type) VALUES
-(1, 1, 100.00, 1, 10, 'VIP'),
-(2, 2, 50.00, 3, 5, 'Standard');
+INSERT INTO Tickets (ticket_id, event_id, price, seat_id, ticket_type) VALUES
+(1, 1, 100.00, 1, 'VIP'),
+(2, 2, 50.00, 3, 'Standard');
 
 CREATE TABLE GeneralAdmissionTicket (
     ticket_id INT PRIMARY KEY,
@@ -227,38 +216,40 @@ SELECT COUNT(DISTINCT ticket_id) AS 'Total VIP Packages'
 FROM VIPPACKAGES;
 -- e. Summarize the total number of ticket bookings and the total payment amount made
 -- for each event. Show the events with the highest total associated payment amount
--- first.
-SELECT 
-    E.event_id,
-    E.event_name,
-    COUNT(TBS.booking_id) AS total_bookings,
-    SUM(T.price) AS total_payment_amount
-FROM 
-    TicketBookingSystem TBS
-JOIN 
-    Tickets T ON TBS.ticket_id = T.ticket_id
-JOIN 
-    Events E ON TBS.event_id = E.event_id
-GROUP BY 
-    E.event_id, E.event_name
-ORDER BY 
-    total_payment_amount DESC;
+-- first
+-- booking id doesn't exist anymore.
+-- SELECT 
+--     E.event_id,
+--     E.event_name,
+--     COUNT(TBS.booking_id) AS total_bookings,
+--     SUM(T.price) AS total_payment_amount
+-- FROM 
+--     TicketBookingSystem TBS
+-- JOIN 
+--     Tickets T ON TBS.ticket_id = T.ticket_id
+-- JOIN 
+--     Events E ON TBS.event_id = E.event_id
+-- GROUP BY 
+--     E.event_id, E.event_name
+-- ORDER BY 
+--     total_payment_amount DESC;
 -- f. Summarize customer booking performance in the following way – for each
 -- customer, show:
 -- i. Their ID and name (show as “Full Name”),
 -- ii. The total number of tickets they have booked,
 -- iii. The total amount they have paid, and
 -- iv. The number of different events they have attended.
-SELECT 
-    C.customer_id,
-    C.name AS "Full Name",
-    COUNT(TBS.booking_id) AS total_tickets_booked,
-    SUM(T.price) AS total_amount_paid,
-    COUNT(DISTINCT TBS.event_id) AS total_events_attended
-FROM 
-    Customers C
-JOIN 
-    TicketBookingSystem TBS ON C.customer_id = TBS.customer_id
-JOIN 
-    Tickets T ON TBS.ticket_id = T.ticket_id
-GROUP BY 
+-- problem TBS doesn't exist anymore
+-- SELECT 
+--     C.customer_id,
+--     C.name AS "Full Name",
+--     COUNT(TBS.booking_id) AS total_tickets_booked,
+--     SUM(T.price) AS total_amount_paid,
+--     COUNT(DISTINCT TBS.event_id) AS total_events_attended
+-- FROM 
+--     Customers C
+-- JOIN 
+--     TicketBookingSystem TBS ON C.customer_id = TBS.customer_id
+-- JOIN 
+--     Tickets T ON TBS.ticket_id = T.ticket_id
+-- GROUP BY 
