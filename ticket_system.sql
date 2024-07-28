@@ -53,8 +53,8 @@ INSERT INTO Events (event_id, venue_id, event_name, event_date, artist_id) VALUE
 (1, 1, 'Concert A', '2024-08-01', 1),
 (2, 2, 'Concert B', '2024-09-15', 2);
 
-CREATE TABLE Product_Merchandise (
-    product_id INT PRIMARY KEY,
+CREATE TABLE Merchandise (
+    merchandise_id INT PRIMARY KEY,
     product_type VARCHAR(50),
     event_id INT,
     price DECIMAL(5, 2),
@@ -62,9 +62,19 @@ CREATE TABLE Product_Merchandise (
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
 );
 
-INSERT INTO Product_Merchandise (product_id, product_type, event_id, price, quantity_available) VALUES
+INSERT INTO Merchandise (merchandise_id, product_type, event_id, price, quantity_available) VALUES
 (1, 'T-shirt', 1, 20.00, 100),
-(2, 'Poster', 2, 10.00, 200);
+(2, 'Poster', 2, 10.00, 200),
+(3, 'T-shirt 1', 1, 30.00, 100),
+(4, 'T-shirt 2', 1, 50.00, 100),
+(5, 'Pants', 1, 20.00, 100),
+(6, 'Shorts', 1, 20.00, 100),
+(7, 'Balls', 1, 20.00, 100),
+(8, 'Bike', 1, 20.00, 100),
+(9, 'Jacket', 1, 90.00, 100),
+(10, 'Phone', 1, 20.00, 100),
+(11, 'Bag', 1, 20.00, 100),
+(12, 'Camera', 1, 120.00, 100);
 
 CREATE TABLE Venue (
     venue_id INT PRIMARY KEY,
@@ -75,23 +85,39 @@ CREATE TABLE Venue (
 
 INSERT INTO Venue (venue_id, name, location, capacity) VALUES
 (1, 'Stadium A', '123 Main St', 50000),
-(2, 'Arena B', '456 Elm St', 20000);
+(2, 'Stadium B', '124 Main St', 500000),
+(3, 'Stadium C', '125 Main St', 500001),
+(4, 'Stadium D', '126 Main St', 500002),
+(5, 'Stadium E', '127 Main St', 500003),
+(6, 'Stadium F', '128 Main St', 500004),
+(7, 'Stadium G', '129 Main St', 500005),
+(8, 'Stadium H', '1231 Main St', 500006),
+(9, 'Stadium I', '1232 Main St', 500007),
+(10, 'Stadium J', '1233 Main St', 500008),
+(12, 'Stadium K', '1234 Main St', 500009),
+(13, 'Stadium L', '1235 Main St', 500000),
+(24, 'Arena B', '456 Elm St', 20000);
 
 CREATE TABLE Seats (
     seat_id INT PRIMARY KEY,
     venue_id INT,
-    seat_number VARCHAR(10),
-    section VARCHAR(50),
+    section CHAR(1),
     accessible BOOLEAN,
-    row VARCHAR(10),
+    row INT,
     FOREIGN KEY (venue_id) REFERENCES Venue(venue_id)
 );
 
-INSERT INTO Seats (seat_id, venue_id, seat_number, section, accessible, row) VALUES
-(1, 1, 'A1', 'Section A', TRUE, 'Row 1'),
-(2, 1, 'A2', 'Section A', FALSE, 'Row 1'),
-(3, 2, 'B1', 'Section B', TRUE, 'Row 1'),
-(4, 2, 'B2', 'Section B', FALSE, 'Row 1');
+INSERT INTO Seats (seat_id, venue_id, section, accessible, row) VALUES
+(1, 1, 'A', TRUE, 1),
+(2, 1, 'A', FALSE, 1),
+(3, 2, 'A', TRUE, 2),
+(4, 2, 'B', FALSE, 1),
+(5, 3, 'B', TRUE, 2),
+(6, 3, 'C', FALSE, 1),
+(7, 4, 'C', TRUE, 1),
+(8, 4, 'D', FALSE, 1),
+(9, 5, 'D', TRUE, 2),
+(10, 5, 'D', FALSE, 2);
 
 CREATE TABLE Tickets (
     ticket_id INT PRIMARY KEY,
@@ -129,13 +155,13 @@ INSERT INTO ReservedTicket (ticket_id, section, row) VALUES
 
 CREATE TABLE VIPPackages (
     ticket_id INT PRIMARY KEY,
-    product_id INT,
+    merchandise_id INT,
     vip_area_access BOOLEAN,
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id),
-    FOREIGN KEY (product_id) REFERENCES Product_Merchandise(product_id)
+    FOREIGN KEY (merchandise_id) REFERENCES Product_Merchandise(merchandise_id)
 );
 
-INSERT INTO VIPPackages (ticket_id, product_id, vip_area_access) VALUES
+INSERT INTO VIPPackages (ticket_id, merchandise_id, vip_area_access) VALUES
 (1, 1, TRUE);
 
 CREATE TABLE Waitlist (
