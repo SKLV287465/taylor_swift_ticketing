@@ -130,8 +130,16 @@ CREATE TABLE Tickets (
 );
 
 INSERT INTO Tickets (ticket_id, event_id, price, seat_id, ticket_type) VALUES
-(1, 1, 100.00, 1, 'VIP'),
-(2, 2, 50.00, 3, 'Standard');
+(1, 201, 50.00, 1, 'general admission'),
+(2, 201, 150.00, 2, 'VIP package'),
+(3, 201, 75.00, 3, 'reserved'),
+(4, 202, 50.00, 4, 'general admission'),
+(5, 202, 150.00, 5, 'VIP package'),
+(6, 202, 75.00, 6, 'reserved'),
+(7, 203, 50.00, 7, 'general admission'),
+(8, 203, 150.00, 8, 'VIP package'),
+(9, 203, 75.00, 9, 'reserved'),
+(10, 204, 50.00, 10, 'general admission');
 
 CREATE TABLE GeneralAdmissionTicket (
     ticket_id INT PRIMARY KEY,
@@ -141,7 +149,16 @@ CREATE TABLE GeneralAdmissionTicket (
 );
 
 INSERT INTO GeneralAdmissionTicket (ticket_id, access_time, entry_gate) VALUES
-(1, '18:00:00', 1);
+(1, '10:00:00', 1),
+(2, '10:30:00', 2),
+(3, '11:00:00', 3),
+(4, '11:30:00', 4),
+(5, '12:00:00', 5),
+(6, '12:30:00', 6),
+(7, '13:00:00', 7),
+(8, '13:30:00', 8),
+(9, '14:00:00', 9),
+(10, '14:30:00', 10);
 
 CREATE TABLE ReservedTicket (
     ticket_id INT PRIMARY KEY,
@@ -151,7 +168,16 @@ CREATE TABLE ReservedTicket (
 );
 
 INSERT INTO ReservedTicket (ticket_id, section, row) VALUES
-(2, 'B', 1);
+(1, 'A', 1),
+(2, 'A', 2),
+(3, 'B', 1),
+(4, 'B', 2),
+(5, 'C', 1),
+(6, 'C', 2),
+(7, 'D', 1),
+(8, 'D', 2),
+(9, 'E', 1),
+(10, 'E', 2);
 
 CREATE TABLE VIPPackages (
     ticket_id INT PRIMARY KEY,
@@ -162,7 +188,16 @@ CREATE TABLE VIPPackages (
 );
 
 INSERT INTO VIPPackages (ticket_id, merchandise_id, vip_area_access) VALUES
-(1, 1, TRUE);
+(1, 101, TRUE),
+(2, 102, TRUE),
+(3, 103, TRUE),
+(4, 104, TRUE),
+(5, 105, TRUE),
+(6, 106, TRUE),
+(7, 107, TRUE),
+(8, 108, TRUE),
+(9, 109, TRUE),
+(10, 110, TRUE);
 
 CREATE TABLE Waitlist (
     waitlist_id INT PRIMARY KEY,
@@ -174,8 +209,16 @@ CREATE TABLE Waitlist (
 );
 
 INSERT INTO Waitlist (waitlist_id, customer_id, event_id, position) VALUES
-(1, 1, 2, 1),
-(2, 2, 1, 2);
+(1, 201, 301, 1),
+(2, 202, 301, 2),
+(3, 203, 301, 3),
+(4, 204, 302, 1),
+(5, 205, 302, 2),
+(6, 206, 302, 3),
+(7, 207, 303, 1),
+(8, 208, 303, 2),
+(9, 209, 303, 3),
+(10, 210, 304, 1);
 
 CREATE TABLE Artist (
     artist_id INT PRIMARY KEY,
@@ -183,35 +226,43 @@ CREATE TABLE Artist (
     email VARCHAR(100)
 );
 INSERT INTO Artist (artist_id, name, email) VALUES
-(1, 'Band X', 'bandx@example.com'),
-(2, 'Singer Y', 'singery@example.com');
+(1, 'John Doe', 'john.doe@example.com'),
+(2, 'Jane Smith', 'jane.smith@example.com'),
+(3, 'Robert Brown', 'robert.brown@example.com'),
+(4, 'Emily Johnson', 'emily.johnson@example.com'),
+(5, 'Michael Williams', 'michael.williams@example.com'),
+(6, 'Sarah Jones', 'sarah.jones@example.com'),
+(7, 'David Garcia', 'david.garcia@example.com'),
+(8, 'Laura Martinez', 'laura.martinez@example.com'),
+(9, 'James Wilson', 'james.wilson@example.com'),
+(10, 'Linda Taylor', 'linda.taylor@example.com');
 
--- Composite entities
-CREATE TABLE Customer_Ticket (
-    customer_id INT,
-    ticket_id INT,
-    PRIMARY KEY (customer_id, ticket_id),
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
-);
+-- -- Composite entities
+-- CREATE TABLE Customer_Ticket (
+--     customer_id INT,
+--     ticket_id INT,
+--     PRIMARY KEY (customer_id, ticket_id),
+--     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+--     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
+-- );
 
-INSERT INTO Customer_Ticket (customer_id, ticket_id) VALUES
-(1, 1),
-(2, 2);
+-- INSERT INTO Customer_Ticket (customer_id, ticket_id) VALUES
+-- (1, 1),
+-- (2, 2);
 
-CREATE TABLE Customer_Employees_Feedback (
-    customer_id INT,
-    employee_id INT,
-    feedback_id INT,
-    PRIMARY KEY (customer_id, employee_id, feedback_id),
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (employee_id) REFERENCES Employees(employee_id),
-    FOREIGN KEY (feedback_id) REFERENCES Feedback(feedback_id)
-);
+-- CREATE TABLE Customer_Employees_Feedback (
+--     customer_id INT,
+--     employee_id INT,
+--     feedback_id INT,
+--     PRIMARY KEY (customer_id, employee_id, feedback_id),
+--     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+--     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id),
+--     FOREIGN KEY (feedback_id) REFERENCES Feedback(feedback_id)
+-- );
 
-INSERT INTO Customer_Employees_Feedback (customer_id, employee_id, feedback_id) VALUES
-(1, 1, 1),
-(2, 2, 2);
+-- INSERT INTO Customer_Employees_Feedback (customer_id, employee_id, feedback_id) VALUES
+-- (1, 1, 1),
+-- (2, 2, 2);
 
 CREATE TABLE Parking (
     parking_spot_id INT PRIMARY KEY,
