@@ -1,78 +1,70 @@
-CREATE TABLE Customers (
-    customer_id INT PRIMARY KEY,
-    name VARCHAR(100),
-    phone_number CHAR(10),
-    disability_status BOOLEAN,
-    disability_discount INT BETWEEN 20 AND 30,
-    email VARCHAR(100),
-    parking_spot_id INT,
-    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id) 
-    FOREIGN KEY (parking_spot_id) REFERENCES Parking(parking_spot_id)
+CREATE TABLE Venue (
+    venue_id INT PRIMARY KEY,
+    venue_name VARCHAR(100),
+    location VARCHAR(150),
+    capacity INT
 );
 
-INSERT INTO Customers (customer_id, name, phone_number, disability_status, disability_discount, email, parking_spot_id) VALUES
-(1, 'Joshua Shim', '0481453999', FALSE, NULL, 'joshua.shim2004@gmail.com', 1),
-(2, 'Steven Huang', '0489382472', TRUE, 20, 'steven.hunag@gmail.com', 2, 'jake stevems', '0472398122', False, NULL, 'jake.stevens@gmail.com', 2),
-(3, 'Ethan Cao', '0447387434', TRUE, 30, 'ethan.@gmail.com', 3),
-(4, 'johnny doe', '0423848928', FALSE, NULL, 'jonny.sdoe@gmaiol.com', 4),
-(5, 'jane street', '0481453999', TRUE, 20, 'jane.street@gmail.com', 5),
-(6, 'hudson ruiver', '0481434342', FALSE, NULL, 'hudson@gmail.com', 6),
-(7, 'Micahel Jonson', '0499382998', TRUE, 25, 'micahel.jonson@example.com', 7),
-(8, 'Olvia Smih', '0412345678', FALSE, 22, 'olvia.smih@example.com', 8),
-(9, 'Willam Bron', '0493847621', TRUE, 27, 'willam.bron@example.com', 9),
-(10, 'Ema Dvis', '0423765478', TRUE, 30, 'ema.dvis@example.com', 10),
-(11, 'Min-Jun Kim', '0456789123', TRUE, 20, 'minjun.kim@diplo.com'),
-(12, 'Li Wei', '0456789124', TRUE, 25, 'li.wei@diplo.com'),
-(13, 'Jin Woo Park', '0456789125', FALSE, 22, 'jinwoo.park@diplo.com'),
-(14, 'Yun Zhang', '0456789126', TRUE, 28, 'yun.zhang@diplo.com'),
-(15, 'Hao Chen', '0456789127', FALSE, 21, 'hao.chen@diplo.com'),
-(16, 'Soo Jin Lee', '0456789128', TRUE, 30, 'soojin.lee@diplo.com'),
-(17, 'Fei Wong', '0456789129', TRUE, 29, 'fei.wong@diplo.com'),
-(18, 'Jae Hyun Choi', '0456789130', TRUE, 24, 'jaehyun.choi@diplo.com'),
-(19, 'Ming Li', '0456789131', TRUE, 27, 'ming.li@diplo.com'),
-(20, 'Sun Hee Kwon', '0456789132', FALSE, 23, 'sunhee.kwon@diplo.com');
+INSERT INTO Venue (venue_id, venue_name, location, capacity) VALUES
+(1, 'Goblin Stadium', 'Joshuas Brain', 5000),
+(2, 'Bone Pit', 'Ethans Brain', 7500),
+(3, 'Barbarian Bowl', 'Stevens Brain', 10000),
+(4, 'PEKKAs Playhouse', 'Jakes Brain', 12000),
+(5, 'Spell Valley', 'Joshuas Brain', 9000),
+(6, 'Builders Workshop', 'Ethans Brain', 11000),
+(7, 'Royal Arena', 'Stevens Brain', 13000),
+(8, 'Frozen Peak', 'Jakes Brain', 14000),
+(9, 'Jungle Arena', 'Joshuas Brain', 15000),
+(10, 'Hog Mountain', 'Ethans Brain', 16000);
 
-CREATE TABLE Feedback (
-    feedback_id INT PRIMARY KEY,
-    customer_id INT,
-    event_id INT,
-    rating INT BETWEEN 1 AND 10,
-    comments TEXT,
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (event_id) REFERENCES Events(event_id)
+CREATE TABLE Artist (
+    artist_id INT PRIMARY KEY,
+    artist_name VARCHAR(100),
+    email VARCHAR(100)
+);
+INSERT INTO Artist (artist_id, artist_name, email) VALUES
+(1, 'Enrico Caruso', 'enricocaruso@diplopaints.com'),
+(2, 'Nellie Melba', 'nelliemelba@diplopaints.com'),
+(3, 'Jean de Reszke', 'jeandereszke@diplopaints.com'),
+(4, 'Adelina Patti', 'adelinapatti@diplopaints.com'),
+(5, 'Victor Maurel', 'victormaurel@diplopaints.com'),
+(6, 'Emma Calvé', 'emmacalve@diplopaints.com'),
+(7, 'Mattia Battistini', 'mattiabattistini@diplopaints.com'),
+(8, 'Francesco Tamagno', 'francescotamagno@diplopaints.com'),
+(9, 'Marcella Sembrich', 'marcellasembrich@diplopaints.com'),
+(10, 'Pol Plançon', 'polplancon@diplopaints.com');
+CREATE TABLE Parking (
+    parking_spot_id INT PRIMARY KEY,
+    parking_level INT,
+    accessible BOOLEAN,
+    building VARCHAR(100),
+    reserved_period_start TIME,
+    reserved_period_end TIME,
+    venue_id INT,
+    FOREIGN KEY (venue_id) REFERENCES Venue(venue_id)
 );
 
-INSERT INTO Feedback (feedback_id, customer_id, event_id, rating, comments) VALUES
-(1, 1, 1, 5, 'Great evnt, had a wnderful time!'),
-(2, 2, 2, 4, 'Good orgnization, but the sound ws too loud.'),
-(3, 3, 3, 3, 'Average expirence, could be imprved.'),
-(4, 4, 4, 5, 'Loved it! Everything was prfect!'),
-(5, 5, 5, 4, 'Well planned, bt a bit crowded.'),
-(6, 6, 6, 2, 'Not satisfied, the event was unorgnized.'),
-(7, 7, 7, 5, 'Fantastic prformance by the artists!'),
-(8, 8, 8, 3, 'It was okay, nothng special.'),
-(9, 9, 9, 4, 'Enjoyed the event, but food was xepensive.'),
-(10, 10, 10, 5, 'Amazing experience, would recomnd to others!');
-
-CREATE TABLE Employees (
-    employee_id INT PRIMARY KEY,
-    email VARCHAR(100),
-    name VARCHAR(100),
-    role VARCHAR(20)
-);
-
-INSERT INTO Employees (employee_id, email, name, role) VALUES
-(1, 'tesla@example.com', 'Tesla', 'customer service'),
-(2, 'ford@example.com', 'Ford', 'customer service'),
-(3, 'toyota@example.com', 'Toyota', 'customer service'),
-(4, 'honda@example.com', 'Honda', 'customer service'),
-(5, 'bmw@example.com', 'BMW', 'customer service'),
-(6, 'audi@example.com', 'Audi', 'customer service'),
-(7, 'chevrolet@example.com', 'Chevrolet', 'customer service'),
-(8, 'nissan@example.com', 'Nissan', 'customer service'),
-(9, 'mercedes@example.com', 'Mercedes', 'customer service'),
-(10, 'volvo@example.com', 'Volvo', 'customer service');
-
+INSERT INTO Parking (parking_spot_id, parking_level, accessible, building, reserved_period_start, reserved_period_end, venue_id) VALUES
+(1, 1, FALSE, 'Spot1', '08:00:00', '18:00:00', 1),
+(2, 2, TRUE, 'Spot2', '08:00:00', '18:00:00', 2),
+(3, 3, TRUE, 'Spot3', '08:00:00', '18:00:00', 3),
+(4, 1, FALSE, 'Spot4', '08:00:00', '18:00:00', 4),
+(5, 2, TRUE, 'Spot5', '08:00:00', '18:00:00', 5),
+(6, 3, FALSE, 'Spot6', '08:00:00', '18:00:00', 6),
+(7, 1, TRUE, 'Spot7', '08:00:00', '18:00:00', 7),
+(8, 2, FALSE, 'Spot8', '08:00:00', '18:00:00', 8),
+(9, 3, TRUE, 'Spot9', '08:00:00', '18:00:00', 9),
+(10, 1, TRUE, 'Spot10', '08:00:00', '18:00:00', 10),
+(11, 2, TRUE, 'Spot11', '08:00:00', '18:00:00', 1),
+(12, 3, TRUE, 'Spot12', '08:00:00', '18:00:00', 2),
+(13, 1, FALSE, 'Spot13', '08:00:00', '18:00:00', 3),
+(14, 2, TRUE, 'Spot14', '08:00:00', '18:00:00', 4),
+(15, 3, FALSE, 'Spot15', '08:00:00', '18:00:00', 5),
+(16, 1, TRUE, 'Spot16', '08:00:00', '18:00:00', 6),
+(17, 2, TRUE, 'Spot17', '08:00:00', '18:00:00', 7),
+(18, 3, TRUE, 'Spot18', '08:00:00', '18:00:00', 8),
+(19, 1, TRUE, 'Spot19', '08:00:00', '18:00:00', 9),
+(20, 2, FALSE, 'Spot20', '08:00:00', '18:00:00', 10);
 CREATE TABLE Events (
     event_id INT PRIMARY KEY,
     venue_id INT,
@@ -94,88 +86,6 @@ INSERT INTO Events (event_id, venue_id, event_name, event_date, artist_id) VALUE
 (8, 8, 'Electro Dragon', '2024-08-01', 8),
 (9, 9, 'P.E.K.K.A', '2024-06-06', 9),
 (10, 10, 'Golem', '2024-05-29', 10);
-
-CREATE TABLE Merchandise (
-    merchandise_id INT PRIMARY KEY,
-    product_type VARCHAR(50),
-    event_id INT,
-    price DECIMAL(5, 2),
-    quantity_available INT,
-    FOREIGN KEY (event_id) REFERENCES Events(event_id)
-);
-
-INSERT INTO Merchandise (merchandise_id, product_type, event_id, price, quantity_available) VALUES
-(1, 'Joshua Shim Autographed Poster', 1, 50.00, 200),
-(2, 'Jake Stevens Limited Edition T-Shirt', 2, 25.99, 150),
-(3, 'Steven Huang Concert Hoodie', 3, 40.00, 100),
-(4, 'Ethan Cao Collector’s Mug', 4, 15.75, 300),
-(5, 'Joshua Shim Signed Album', 5, 30.00, 120),
-(6, 'Jake Stevens Tour Keychain', 6, 5.95, 400),
-(7, 'Steven Huang Fan Wristband', 7, 3.50, 500),
-(8, 'Ethan Cao Sticker Pack', 8, 2.75, 700),
-(9, 'Joshua Shim Exclusive Notebook', 9, 10.99, 250),
-(10, 'Jake Stevens Phone Case', 10, 18.20, 180);
-
-CREATE TABLE Venue (
-    venue_id INT PRIMARY KEY,
-    name VARCHAR(100),
-    location VARCHAR(150),
-    capacity INT
-);
-
-INSERT INTO Venue (venue_id, name, location, capacity) VALUES
-(1, 'Goblin Stadium', 'Joshuas Brain', 5000),
-(2, 'Bone Pit', 'Ethans Brain', 7500),
-(3, 'Barbarian Bowl', 'Stevens Brain', 10000),
-(4, 'PEKKAs Playhouse', 'Jakes Brain', 12000),
-(5, 'Spell Valley', 'Joshuas Brain', 9000),
-(6, 'Builders Workshop', 'Ethans Brain', 11000),
-(7, 'Royal Arena', 'Stevens Brain', 13000),
-(8, 'Frozen Peak', 'Jakes Brain', 14000),
-(9, 'Jungle Arena', 'Joshuas Brain', 15000),
-(10, 'Hog Mountain', 'Ethans Brain', 16000);
-
-CREATE TABLE Seats (
-    seat_id INT PRIMARY KEY,
-    venue_id INT,
-    section CHAR(1),
-    accessible BOOLEAN,
-    row INT,
-    FOREIGN KEY (venue_id) REFERENCES Venue(venue_id)
-);
-
-INSERT INTO Seats (seat_id, venue_id, section, accessible, row) VALUES
-(1, 1, 'W', TRUE, 1),
-(2, 2, 'H', FALSE, 2),
-(3, 3, 'A', TRUE, 3),
-(4, 4, 'T', FALSE, 4),
-(5, 5, 'E', TRUE, 5),
-(6, 6, 'V', FALSE, 6),
-(7, 7, 'E', TRUE, 7),
-(8, 8, 'R', FALSE, 8),
-(9, 9, 'E', TRUE, 9),
-(10, 10, 'R', FALSE, 10),
-(11, 1, 'W', TRUE, 1),
-(12, 2, 'H', FALSE, 2),
-(13, 3, 'A', TRUE, 3),
-(14, 4, 'T', FALSE, 4),
-(15, 5, 'E', TRUE, 5),
-(16, 6, 'V', FALSE, 6),
-(17, 7, 'E', TRUE, 7),
-(18, 8, 'R', FALSE, 8),
-(19, 9, 'E', TRUE, 9),
-(20, 10, 'R', FALSE, 10),
-(21, 1, 'W', TRUE, 1),
-(22, 2, 'H', FALSE, 2),
-(23, 3, 'A', TRUE, 3),
-(24, 4, 'T', FALSE, 4),
-(25, 5, 'E', TRUE, 5),
-(26, 6, 'V', FALSE, 6),
-(27, 7, 'E', TRUE, 7),
-(28, 8, 'R', FALSE, 8),
-(29, 9, 'E', TRUE, 9),
-(30, 10, 'R', FALSE, 10);
-
 CREATE TABLE Tickets (
     ticket_id INT PRIMARY KEY,
     event_id INT,
@@ -217,6 +127,148 @@ INSERT INTO Tickets (ticket_id, event_id, price, seat_id, ticket_type) VALUES
 (28, 8, 150.00, 28, 'VIP package'),
 (29, 9, 150.00, 29, 'VIP package'),
 (30, 10, 150.00, 30, 'VIP package');
+
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    phone_number CHAR(10),
+    disability_status BOOLEAN,
+    disability_discount INT,
+    email VARCHAR(100),
+    parking_spot_id INT,
+    ticket_id INT,
+    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id), 
+    FOREIGN KEY (parking_spot_id) REFERENCES Parking(parking_spot_id)
+);
+
+INSERT INTO Customers (customer_id, customer_name, phone_number, disability_status, disability_discount, email, ticket_id, parking_spot_id) VALUES
+(1, 'Joshua Shim', '0481453999', FALSE, NULL, 'joshua.shim2004@gmail.com', 1, 1),
+(2, 'Steven Huang', '0489382472', TRUE, 20, 'steven.huang@gmail.com', 2, 2),
+(3, 'Ethan Cao', '0447387434', TRUE, 30, 'ethan.cao@gmail.com', 3, 3),
+(4, 'Johnny Doe', '0423848928', FALSE, NULL, 'johnny.doe@gmail.com', 4, 4),
+(5, 'Jane Street', '0481453999', TRUE, 20, 'jane.street@gmail.com', 5, 5),
+(6, 'Hudson River', '0481434342', FALSE, NULL, 'hudson.river@gmail.com', 6, 6),
+(7, 'Michael Johnson', '0499382998', TRUE, 25, 'michael.johnson@example.com', 7, 7),
+(8, 'Olivia Smith', '0412345678', FALSE, 22, 'olivia.smith@example.com', 8, 8),
+(9, 'William Brown', '0493847621', TRUE, 27, 'william.brown@example.com', 9, 9),
+(10, 'Emma Davis', '0423765478', TRUE, 30, 'emma.davis@example.com', 10, 10),
+(11, 'Min-Jun Kim', '0456789123', TRUE, 20, 'minjun.kim@diplo.com', 11, 11),
+(12, 'Li Wei', '0456789124', TRUE, 25, 'li.wei@diplo.com', 12, 12),
+(13, 'Jin Woo Park', '0456789125', FALSE, 22, 'jinwoo.park@diplo.com', 13, 13),
+(14, 'Yun Zhang', '0456789126', TRUE, 28, 'yun.zhang@diplo.com', 14, 14),
+(15, 'Hao Chen', '0456789127', FALSE, 21, 'hao.chen@diplo.com', 15, 15),
+(16, 'Soo Jin Lee', '0456789128', TRUE, 30, 'soojin.lee@diplo.com', 16, 16),
+(17, 'Fei Wong', '0456789129', TRUE, 29, 'fei.wong@diplo.com', 17, 17),
+(18, 'Jae Hyun Choi', '0456789130', TRUE, 24, 'jaehyun.choi@diplo.com', 18, 18),
+(19, 'Ming Li', '0456789131', TRUE, 27, 'ming.li@diplo.com', 19, 19),
+(20, 'Sun Hee Kwon', '0456789132', FALSE, 23, 'sunhee.kwon@diplo.com', 20, 20);
+
+CREATE TABLE Feedback (
+    feedback_id INT PRIMARY KEY,
+    customer_id INT,
+    event_id INT,
+    rating INT,
+    comments TEXT,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+    FOREIGN KEY (event_id) REFERENCES Events(event_id),
+    CHECK (rating BETWEEN 1 AND 10)
+);
+
+INSERT INTO Feedback (feedback_id, customer_id, event_id, rating, comments) VALUES
+(1, 1, 1, 5, 'Great evnt, had a wnderful time!'),
+(2, 2, 2, 4, 'Good orgnization, but the sound ws too loud.'),
+(3, 3, 3, 3, 'Average expirence, could be imprved.'),
+(4, 4, 4, 5, 'Loved it! Everything was prfect!'),
+(5, 5, 5, 4, 'Well planned, bt a bit crowded.'),
+(6, 6, 6, 2, 'Not satisfied, the event was unorgnized.'),
+(7, 7, 7, 5, 'Fantastic prformance by the artists!'),
+(8, 8, 8, 3, 'It was okay, nothng special.'),
+(9, 9, 9, 4, 'Enjoyed the event, but food was xepensive.'),
+(10, 10, 10, 5, 'Amazing experience, would recomnd to others!');
+
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY,
+    email VARCHAR(100),
+    emp_name VARCHAR(100),
+    role VARCHAR(20)
+);
+
+INSERT INTO Employees (employee_id, email, emp_name, role) VALUES
+(1, 'tesla@example.com', 'Tesla', 'customer service'),
+(2, 'ford@example.com', 'Ford', 'customer service'),
+(3, 'toyota@example.com', 'Toyota', 'customer service'),
+(4, 'honda@example.com', 'Honda', 'customer service'),
+(5, 'bmw@example.com', 'BMW', 'customer service'),
+(6, 'audi@example.com', 'Audi', 'customer service'),
+(7, 'chevrolet@example.com', 'Chevrolet', 'customer service'),
+(8, 'nissan@example.com', 'Nissan', 'customer service'),
+(9, 'mercedes@example.com', 'Mercedes', 'customer service'),
+(10, 'volvo@example.com', 'Volvo', 'customer service');
+
+
+
+CREATE TABLE Merchandise (
+    merchandise_id INT PRIMARY KEY,
+    product_type VARCHAR(50),
+    event_id INT,
+    price DECIMAL(5, 2),
+    quantity_available INT,
+    FOREIGN KEY (event_id) REFERENCES Events(event_id)
+);
+
+INSERT INTO Merchandise (merchandise_id, product_type, event_id, price, quantity_available) VALUES
+(1, 'Joshua Shim Autographed Poster', 1, 50.00, 200),
+(2, 'Jake Stevens Limited Edition T-Shirt', 2, 25.99, 150),
+(3, 'Steven Huang Concert Hoodie', 3, 40.00, 100),
+(4, 'Ethan Cao Collector’s Mug', 4, 15.75, 300),
+(5, 'Joshua Shim Signed Album', 5, 30.00, 120),
+(6, 'Jake Stevens Tour Keychain', 6, 5.95, 400),
+(7, 'Steven Huang Fan Wristband', 7, 3.50, 500),
+(8, 'Ethan Cao Sticker Pack', 8, 2.75, 700),
+(9, 'Joshua Shim Exclusive Notebook', 9, 10.99, 250),
+(10, 'Jake Stevens Phone Case', 10, 18.20, 180);
+
+
+CREATE TABLE Seats (
+    seat_id INT PRIMARY KEY,
+    venue_id INT,
+    section CHAR(1),
+    accessible BOOLEAN,
+    row INT,
+    FOREIGN KEY (venue_id) REFERENCES Venue(venue_id)
+);
+
+INSERT INTO Seats (seat_id, venue_id, section, accessible, row) VALUES
+(1, 1, 'W', TRUE, 1),
+(2, 2, 'H', FALSE, 2),
+(3, 3, 'A', TRUE, 3),
+(4, 4, 'T', FALSE, 4),
+(5, 5, 'E', TRUE, 5),
+(6, 6, 'V', FALSE, 6),
+(7, 7, 'E', TRUE, 7),
+(8, 8, 'R', FALSE, 8),
+(9, 9, 'E', TRUE, 9),
+(10, 10, 'R', FALSE, 10),
+(11, 1, 'W', TRUE, 1),
+(12, 2, 'H', FALSE, 2),
+(13, 3, 'A', TRUE, 3),
+(14, 4, 'T', FALSE, 4),
+(15, 5, 'E', TRUE, 5),
+(16, 6, 'V', FALSE, 6),
+(17, 7, 'E', TRUE, 7),
+(18, 8, 'R', FALSE, 8),
+(19, 9, 'E', TRUE, 9),
+(20, 10, 'R', FALSE, 10),
+(21, 1, 'W', TRUE, 1),
+(22, 2, 'H', FALSE, 2),
+(23, 3, 'A', TRUE, 3),
+(24, 4, 'T', FALSE, 4),
+(25, 5, 'E', TRUE, 5),
+(26, 6, 'V', FALSE, 6),
+(27, 7, 'E', TRUE, 7),
+(28, 8, 'R', FALSE, 8),
+(29, 9, 'E', TRUE, 9),
+(30, 10, 'R', FALSE, 10);
 
 CREATE TABLE GeneralAdmissionTicket (
     ticket_id INT PRIMARY KEY,
@@ -261,7 +313,7 @@ CREATE TABLE VIPPackages (
     merchandise_id INT,
     vip_area_access BOOLEAN,
     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id),
-    FOREIGN KEY (merchandise_id) REFERENCES Product_Merchandise(merchandise_id)
+    FOREIGN KEY (merchandise_id) REFERENCES Merchandise(merchandise_id)
 );
 
 INSERT INTO VIPPackages (ticket_id, merchandise_id, vip_area_access) VALUES
@@ -297,113 +349,69 @@ INSERT INTO Waitlist (waitlist_id, customer_id, event_id, position) VALUES
 (9, 19, 9, 9),
 (10, 20, 10, 10);
 
-CREATE TABLE Artist (
-    artist_id INT PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100)
-);
-INSERT INTO Artist (artist_id, name, email) VALUES
-(1, 'Antique White USA', 'antiquewhiteusa@diplo.com'),
-(2, 'Natural White', 'naturalwhite@diplo.com'),
-(3, 'Lexicon', 'lexicon@diplo.com'),
-(4, 'Hog Bristle', 'hogbristle@diplo.com'),
-(5, 'Whisper White', 'whisperwhite@diplo.com'),
-(6, 'Spanish Olive', 'spanisholive@diplo.com'),
-(7, 'Deep Aqua', 'deepaqua@diplo.com'),
-(8, 'Black Caviar', 'blackcaviar@diplo.com'),
-(9, 'Green Mist', 'greenmist@diplo.com'),
-(10, 'Classic Cream', 'classiccream@diplo.com');
 
--- -- Composite entities
--- CREATE TABLE Customer_Ticket (
---     customer_id INT,
---     ticket_id INT,
---     PRIMARY KEY (customer_id, ticket_id),
---     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
---     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
--- );
 
--- INSERT INTO Customer_Ticket (customer_id, ticket_id) VALUES
--- (1, 1),
--- (2, 2);
+-- -- -- Composite entities
+-- -- CREATE TABLE Customer_Ticket (
+-- --     customer_id INT,
+-- --     ticket_id INT,
+-- --     PRIMARY KEY (customer_id, ticket_id),
+-- --     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+-- --     FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
+-- -- );
 
--- CREATE TABLE Customer_Employees_Feedback (
---     customer_id INT,
---     employee_id INT,
---     feedback_id INT,
---     PRIMARY KEY (customer_id, employee_id, feedback_id),
---     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
---     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id),
---     FOREIGN KEY (feedback_id) REFERENCES Feedback(feedback_id)
--- );
+-- -- INSERT INTO Customer_Ticket (customer_id, ticket_id) VALUES
+-- -- (1, 1),
+-- -- (2, 2);
 
--- INSERT INTO Customer_Employees_Feedback (customer_id, employee_id, feedback_id) VALUES
--- (1, 1, 1),
--- (2, 2, 2);
+-- -- CREATE TABLE Customer_Employees_Feedback (
+-- --     customer_id INT,
+-- --     employee_id INT,
+-- --     feedback_id INT,
+-- --     PRIMARY KEY (customer_id, employee_id, feedback_id),
+-- --     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+-- --     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id),
+-- --     FOREIGN KEY (feedback_id) REFERENCES Feedback(feedback_id)
+-- -- );
 
-CREATE TABLE Parking (
-    parking_spot_id INT PRIMARY KEY,
-    level INT,
-    accessible BOOLEAN,
-    building VARCHAR(100),
-    reserved_period_start TIME,
-    reserved_period_end TIME
-);
+-- -- INSERT INTO Customer_Employees_Feedback (customer_id, employee_id, feedback_id) VALUES
+-- -- (1, 1, 1),
+-- -- (2, 2, 2);
 
-INSERT INTO Parking (parking_spot_id, level, accessible, building, reserved_period_start, reserved_period_end) VALUES
-(1, 1, FALSE, 'Biceps', '08:00:00', '18:00:00'),
-(2, 2, TRUE, 'Triceps', '08:00:00', '18:00:00'),
-(3, 3, TRUE, 'Deltoid', '08:00:00', '18:00:00'),
-(4, 1, FALSE, 'Pectoralis Major', '08:00:00', '18:00:00'),
-(5, 2, TRUE, 'Latissimus Dorsi', '08:00:00', '18:00:00'),
-(6, 3, FALSE, 'Rectus Abdominis', '08:00:00', '18:00:00'),
-(7, 1, TRUE, 'Quadriceps', '08:00:00', '18:00:00'),
-(8, 2, FALSE, 'Hamstring', '08:00:00', '18:00:00'),
-(9, 3, TRUE, 'Gluteus Maximus', '08:00:00', '18:00:00'),
-(10, 1, TRUE, 'Gastrocnemius', '08:00:00', '18:00:00'),
-(11, 2, TRUE, 'Soleus', '08:00:00', '18:00:00'),
-(12, 3, TRUE, 'Tibialis Anterior', '08:00:00', '18:00:00'),
-(13, 1, FALSE, 'Obliques', '08:00:00', '18:00:00'),
-(14, 2, TRUE, 'Adductor Magnus', '08:00:00', '18:00:00'),
-(15, 3, FALSE, 'Sartorius', '08:00:00', '18:00:00'),
-(16, 1, TRUE, 'Piriformis', '08:00:00', '18:00:00'),
-(17, 2, TRUE, 'Psoas Major', '08:00:00', '18:00:00'),
-(18, 3, TRUE, 'Iliacus', '08:00:00', '18:00:00'),
-(19, 1, TRUE, 'Infraspinatus', '08:00:00', '18:00:00'),
-(20, 2, FALSE, 'Teres Major', '08:00:00', '18:00:00');
 
--- a. Provide a list of events (the names).
-SELECT event_name 
-FROM EVENTS;
--- b. Provide a list of unique event dates.
-SELECT DISTINCT event_date FROM EVENTS;
--- c. List all customer names (first and last name) who have reserved accessible parking
--- spots.
-SELECT name
-FROM Customers
-JOIN Parking ON Customers.parking_spot_id = Parking.parking_spot_id
-WHERE Parking.accessible = TRUE;
--- d. Count the number of different VIP packages and list the total number as 'Total VIP
--- Packages'.
-SELECT COUNT(DISTINCT ticket_id) AS 'Total VIP Packages'
-FROM VIPPACKAGES;
--- e. Summarize the total number of ticket bookings and the total payment amount made
--- for each event. Show the events with the highest total associated payment amount
--- first
--- booking id doesn't exist anymore.
-SELECT e.event_name, COUNT(t.ticket_id) AS total_bookings, SUM(t.price) AS total_payment
-FROM Events e
-JOIN Tickets t ON e.event_id = t.event_id
-GROUP BY e.event_name
-ORDER BY total_payment DESC;
--- f. Summarize customer booking performance in the following way – for each
--- customer, show:
--- i. Their ID and name (show as “Full Name”),
--- ii. The total number of tickets they have booked,
--- iii. The total amount they have paid, and
--- iv. The number of different events they have attended.
--- problem TBS doesn't exist anymore
-SELECT c.customer_id, c.name AS "Full Name", COUNT(t.ticket_id) AS total_tickets, SUM(t.price) AS total_amount_paid, COUNT(DISTINCT t.event_id) AS different_events
-FROM Customers c
-JOIN Tickets t ON c.ticket_id = t.ticket_id
-GROUP BY c.customer_id, c.name;
+
+-- -- a. Provide a list of events (the names).
+-- SELECT event_name 
+-- FROM EVENTS;
+-- -- b. Provide a list of unique event dates.
+-- SELECT DISTINCT event_date FROM EVENTS;
+-- -- c. List all customer names (first and last name) who have reserved accessible parking
+-- -- spots.
+-- SELECT customer_name
+-- FROM Customers
+-- JOIN Parking ON Customers.parking_spot_id = Parking.parking_spot_id
+-- WHERE Parking.accessible = TRUE;
+-- -- d. Count the number of different VIP packages and list the total number as 'Total VIP
+-- -- Packages'.
+-- SELECT COUNT(DISTINCT ticket_id) AS 'Total VIP Packages'
+-- FROM VIPPACKAGES;
+-- -- e. Summarize the total number of ticket bookings and the total payment amount made
+-- -- for each event. Show the events with the highest total associated payment amount
+-- -- first
+-- -- booking id doesn't exist anymore.
+-- SELECT e.event_name, COUNT(t.ticket_id) AS total_bookings, SUM(t.price) AS total_payment
+-- FROM Events e
+-- JOIN Tickets t ON e.event_id = t.event_id
+-- GROUP BY e.event_name
+-- ORDER BY total_payment DESC;
+-- -- f. Summarize customer booking performance in the following way – for each
+-- -- customer, show:
+-- -- i. Their ID and name (show as “Full Name”),
+-- -- ii. The total number of tickets they have booked,
+-- -- iii. The total amount they have paid, and
+-- -- iv. The number of different events they have attended.
+-- -- problem TBS doesn't exist anymore
+-- SELECT c.customer_id, c.customer_name AS "Full Name", COUNT(t.ticket_id) AS total_tickets, SUM(t.price) AS total_amount_paid, COUNT(DISTINCT t.event_id) AS different_events
+-- FROM Customers c
+-- JOIN Tickets t ON c.ticket_id = t.ticket_id
+-- GROUP BY c.customer_id, c.customer_name;
